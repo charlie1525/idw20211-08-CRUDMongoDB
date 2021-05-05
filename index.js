@@ -28,16 +28,16 @@ var blog2 = new Blogs({
     meta: { votes: 19990, favs: 1982 }
 });
 
-
 // <--------------------------------------------------------------------- fin de la creacion de los blogs
+
 
 blog1.save(function (error) {
     if (error) {
         console.log(error);
         process.exit(1);
     }
-    console.log('Blog saved sucessfully');
-    process.exit(0);
+    console.log('\nBlog saved sucessfully');
+    //process.exit(0);
 });// fin de la funcion para guardar el blog
 
 blog2.save(function (error) {
@@ -46,52 +46,60 @@ blog2.save(function (error) {
         process.exit(1);
     }
     console.log('Blog saved sucessfully');
-    process.exit(0);
-});// fin de la funcion para guardar el blog
-
-Blogs.find({}, function (error, docs) {
-    if (error) {
-        console.log(error);
-        process.exit(1);
-    }
-    console.log('<----- Consulta general ------>');
-    console.log(docs);
-    process.exit(0):
-}); // fin de la funcion para buscar de forma general
-
-
-let titulo = 'Just Another Blog'
-
-Blogs.find({ title: titulo }, function (error, docs) {
-    if (error) {
-        console.log(error);
-        process.exit(1);
-    }
-    console.log('\n<----- Consulta con restricción ------>');
-    console.log(docs);
-    process.exit(0);
-}); // fin de la funcion para buscar de forma general
-
-//  Creación de la funcion de update
-let id_Blog = '60906baa030e6d2b14b178ee';
-Blogs.update({ _id: id_Blog }, { $set: { title: 'Just Another Blog' } },
-    function (error, docs) {
+    //process.exit(0);
+    Blogs.find({}, function (error, docs) {
         if (error) {
             console.log(error);
             process.exit(1);
         }
-        console.log('\n<------ Update ------>');
+        console.log('\n<----- Consulta general creación de ambos blogs ------>');
         console.log(docs);
-        process.exit(0)
-    }); //fin del update por ID
 
+        let titulo = 'Just Another Blog'
 
-//Creacion del metodo par eliminar por el id
-Blogs.findByIdAndRemove({ _id: id_Blog }, function (error, docs) {
-    if (error) {
-        console.log(error);
-        process.exit(1);
-    }
-    console.log(docs);
-    process.exit(0);
-}); //fin de la función
+        Blogs.find({ title: titulo }, function (error, docs) {
+            if (error) {
+                console.log(error);
+                process.exit(1);
+            }
+            console.log('\n<----- Consulta con restricción ------>');
+            console.log(docs);
+            let id_Blog = '609158046a92b51ed06c04f1';
+            Blogs.update({ _id: id_Blog }, { $set: { title: 'Just Another Blog' } },
+                function (error, docs) {
+                    if (error) {
+                        console.log(error);
+                        process.exit(1);
+                    }
+                    console.log('\n<------ Update ------>');
+                    console.log(docs);
+                    Blogs.find({}, function (error, docs) {
+                        if (error) {
+                            console.log(error);
+                            process.exit(1);
+                        }
+                        console.log('\n<----- Consulta general Actualización ------>');
+                        console.log(docs);
+                        //Creacion del metodo par eliminar por el id
+                        Blogs.findByIdAndRemove({ _id: id_Blog }, function (error, docs) {
+                            if (error) {
+                                console.log(error);
+                                process.exit(1);
+                            }
+                            console.log(docs);
+                            Blogs.find({}, function (error, docs) {
+                                if (error) {
+                                    console.log(error);
+                                    process.exit(1);
+                                }
+                                console.log('\n<----- Consulta general eliminación ------>');
+                                console.log(docs);
+                                process.exit(0);
+                            });
+                        }); //fin de la función
+                    });
+                }); //fin del update por ID
+        }); // fin de la funcion para buscar de forma general
+    });
+});// fin de la funcion para guardar el blog
+// fin de la funcion para buscar de forma general
